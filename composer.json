@@ -1,0 +1,22 @@
+{
+    "name": "illuminate/exception",
+    "keywords": ["laravel"],
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/http-kernel": "2.1.*"
+    },
+    "require-dev": {
+        "mockery/mockery": "0.7.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "Illuminate\\Exception": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
