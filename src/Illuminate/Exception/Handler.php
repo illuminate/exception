@@ -14,6 +14,17 @@ class Handler {
 	protected $handlers = array();
 
 	/**
+	 * Handle a console exception.
+	 *
+	 * @param  Exception  $exception
+	 * @return void
+	 */
+	public function handleConsole($exception)
+	{
+		return $this->handle($exception, true);
+	}
+
+	/**
 	 * Handle the given exception.
 	 *
 	 * @param  Exception  $exception
