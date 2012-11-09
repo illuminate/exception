@@ -17,9 +17,10 @@ class Handler {
 	 * Handle the given exception.
 	 *
 	 * @param  Exception  $exception
+	 * @param  bool  $fromConsole
 	 * @return void
 	 */
-	public function handle($exception)
+	public function handle($exception, $fromConsole = false)
 	{
 		foreach ($this->handlers as $handler)
 		{
@@ -44,7 +45,7 @@ class Handler {
 				$code = 500;
 			}
 
-			$response = $handler($exception, $code);
+			$response = $handler($exception, $code, $fromConsole);
 
 			// If the handler returns a "non-null" response, we will return it so it
 			// will get sent back to the browsers. Once a handler returns a valid
