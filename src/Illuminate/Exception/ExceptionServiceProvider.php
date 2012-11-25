@@ -16,8 +16,8 @@ class ExceptionServiceProvider extends ServiceProvider {
 	public function startHandling($app)
 	{
 		// By registering the error handler with a level of -1, we state that we want
-		// all PHP errors converted to ErrorExceptions and thrown, which provides
-		// a quite strict development environment, but prevents unseen errors.
+		// all PHP errors converted into ErrorExceptions and thrown which provides
+		// a very strict development environment but prevents any unseen errors.
 		$app['kernel.error']->register(-1);
 
 		$this->setExceptionHandler($app['exception.function']);
@@ -26,35 +26,35 @@ class ExceptionServiceProvider extends ServiceProvider {
 	/**
 	 * Register the service provider.
 	 *
-	 * @param  Illuminate\Foundation\Application  $app
 	 * @return void
 	 */
-	public function register($app)
+	public function register()
 	{
-		$this->registerKernelHandlers($app);
+		$this->registerKernelHandlers();
 
-		$app['exception'] = $app->share(function()
+		$this->app['exception'] = $this->app->share(function()
 		{
 			return new Handler;
 		});
 
-		$this->registerExceptionHandler($app);
+		$this->registerExceptionHandler();
 	}
 
 	/**
 	 * Register the HttpKernel error and exception handlers.
 	 *
-	 * @param  Illuminate\Foundation\Application  $app
 	 * @return void
 	 */
-	protected function registerKernelHandlers($app)
+	protected function registerKernelHandlers()
 	{
+		$app = $this->app;
+
 		$app['kernel.error'] = function()
 		{
 			return new ErrorHandler;
 		};
 
-		$app['kernel.exception'] = function() use ($app)
+		$this->app['kernel.exception'] = function() use ($app)
 		{
 			return new KernelHandler($app['config']['app.debug']);
 		};
@@ -63,11 +63,12 @@ class ExceptionServiceProvider extends ServiceProvider {
 	/**
 	 * Register the PHP exception handler function.
 	 *
-	 * @param  Illuminate\Foundation\Application  $app
 	 * @return void
 	 */
-	protected function registerExceptionHandler($app)
+	protected function registerExceptionHandler()
 	{
+		$app = $this->app;
+
 		$app['exception.function'] = function() use ($app)
 		{
 			return function($exception) use ($app)
